@@ -58,6 +58,6 @@ kubectl label namespace default istio-injection=enabled --overwrite
 # ----------------------------------------
 echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
 echo "To assigned IP address to istio-ingressgateway LB"
-echo "run `minikube tunnel` in separate terminal"
+echo "run 'minikube tunnel' in separate terminal"
 echo "For cleanup run `sudo minikube tunnel --cleanup`"
 echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
