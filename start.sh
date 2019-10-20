@@ -6,20 +6,12 @@ set -e
 # Create Minikube cluster
 # ----------------------------------------
 minikube start \
-    --extra-config=kubelet.network-plugin=cni \
     --network-plugin=cni \
     --memory=8192 \
+    --extra-config=kubeadm.pod-network-cidr=192.168.0.0/16 \
     --cpus=4
 
-kubectl apply -f https://docs.projectcalico.org/v3.2/getting-started/kubernetes/installation/hosted/etcd.yaml
-kubectl apply -f https://docs.projectcalico.org/v3.2/getting-started/kubernetes/installation/rbac.yaml
-
-curl https://docs.projectcalico.org/v3.2/getting-started/kubernetes/installation/hosted/calico.yaml -O
-gsed -i -e "s/10\.96\.232\.136/$(kubectl get service -o json --namespace=kube-system calico-etcd | jq  -r .spec.clusterIP)/" calico.yaml
-
-kubectl apply -f calico.yaml
-rm calico.yaml
-
+kubectl apply -f https://docs.projectcalico.org/v3.10/manifests/calico.yaml
 
 # ----------------------------------------
 # Install Helm
@@ -35,7 +27,7 @@ helm init --service-account tiller --wait
 # ----------------------------------------
 # Install Istio
 # ----------------------------------------
-ISTIO_VERSION=1.2.3
+ISTIO_VERSION=1.3.3
 
 helm repo add istio.io https://storage.googleapis.com/istio-release/releases/${ISTIO_VERSION}/charts/
 helm repo update
